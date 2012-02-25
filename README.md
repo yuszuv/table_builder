@@ -63,6 +63,13 @@ The body and r method can be combined for easier usage:
       <%= t.d(h(front_man.name)) %>
     <% end %>
 
+So can the head and r method:
+
+    <%= t.head_r do %>
+      <%= t.h('Id')) %>
+      <%= t.h('Name')) %>
+    <% end %>
+
 You can also pass blocks to the d and h methods for more flexibility:
 
 

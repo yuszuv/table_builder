@@ -40,7 +40,7 @@ module TableHelper
       head do
         concat(tag(:tr, options, true))
         yield
-        concat('</tr>')
+        concat('</tr>'.html_safe)
       end
     end
 
