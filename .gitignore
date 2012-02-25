@@ -1,3 +1,6 @@
+.rvmrc
+*.swo
+*.swp
 .DS_Store
 pkg
 .idea
