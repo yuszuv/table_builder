@@ -128,14 +128,30 @@ module CalendarHelper
         @objects_for_days = {}
         days.each{|day| @objects_for_days[day.strftime("%Y-%m-%d")] = [day, []]}
         objects.each do |o|
-          date = o.send(day_method.to_sym).strftime("%Y-%m-%d")
-          if @objects_for_days[date]
-            @objects_for_days[date][1] << o
-          end
+          dates = o.send(day_method.to_sym)
+					split_dates(dates).each do |date|
+						date = date.strftime("%Y-%m-%d")
+						if @objects_for_days[date]
+							@objects_for_days[date][1] << o
+						end
+					end
         end
       end
       @objects_for_days
     end
+
+		def split_dates(dates)
+			dates_array = []
+			case dates
+			when	DateTime, Date, Time
+				dates_array << dates
+			when Enumerable
+				dates.each { |item| dates_array += self.split_dates(item) }
+			else
+				raise ArgumentError "Date function expected to return plain date time or enumerable objects"
+			end
+			dates_array
+		end
 
     def days
       unless @days

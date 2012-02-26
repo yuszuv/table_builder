@@ -191,6 +191,19 @@ class CalendarHelperTest < ActionView::TestCase
     assert_equal objects_for_days, calendar.objects_for_days(@events, :date)
   end
 
+	def test_objects_for_days_with_multidate_events
+    events = [Event.new(3, 'Jimmy Page', Date.civil(2008, 12, 26)),
+              Event.new(4, 'Robert Plant', [Date.civil(2008, 12, 26),
+											 											Date.civil(2008, 12, 24)])]
+    calendar = CalendarHelper::Calendar.new(:year=> 2008, :month => 12)
+		objects_for_days = {}
+    Date.civil(2008, 11, 30).upto(Date.civil(2009, 1, 3)){|day| objects_for_days[day.strftime("%Y-%m-%d")] = [day, []]}
+    objects_for_days['2008-12-24'][1] = [events[1]]
+    objects_for_days['2008-12-26'][1] = events
+    assert_equal objects_for_days, calendar.objects_for_days(events, :date)
+
+	end
+
   def test_objects_for_days
     calendar = CalendarHelper::Calendar.new(:year=> 2008, :month => 12)
     objects_for_days = {}
@@ -226,6 +239,19 @@ class CalendarHelperTest < ActionView::TestCase
     calendar = CalendarHelper::Calendar.new(:year=> 2008, :month => 12, :first_day_of_week => 1)
     assert_equal Date.civil(2009, 1, 4), calendar.last_day
   end
+
+	def test_split_dates
+    calendar = CalendarHelper::Calendar.new(:year=> 2008, :month => 12)
+		day = Date.civil(2008, 11, 15)
+		day_range = Date.civil(2008, 11, 10)..Date.civil(2008, 11, 12)
+		day_nested_range = Date.civil(2008, 11, 20)..Date.civil(2008, 11, 22)
+		day_array = [day_nested_range, Date.civil(2008, 11, 24)]
+		dates = [day, day_range, day_array]
+		expected_array = [15,10,11,12,20,21,22,24].map { |n| Date.civil(2008, 11, n) }
+		assert_equal [day], calendar.split_dates(day)
+		assert_equal [day], calendar.split_dates([day])
+		assert_equal expected_array, calendar.split_dates(dates)
+	end
 end
 
 class Event < Struct.new(:id, :name, :date); end
