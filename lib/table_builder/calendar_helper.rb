@@ -145,14 +145,6 @@ module CalendarHelper
       @days
     end
 
-    def mjdays
-      unless @mjdays
-        @mdays = []
-        each_day{|day| @days << day}
-      end
-      @days
-    end
-
     def first_day_of_week(day)
       day
     end
