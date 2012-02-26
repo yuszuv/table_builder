@@ -158,11 +158,7 @@ module CalendarHelper
     end
 
     def last_day_of_week(day)
-      if day > 0
-        day - 1
-      else
-        6
-      end
+			(day - 1) % 7
     end
   end
 
