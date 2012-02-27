@@ -116,7 +116,7 @@ module CalendarHelper
     end
 
     def first_day
-			offset = @first.wday - @first_weekday
+      offset = @first.wday - @first_weekday
       @first - offset
     end
 
