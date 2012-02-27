@@ -201,7 +201,6 @@ class CalendarHelperTest < ActionView::TestCase
     objects_for_days['2008-12-24'][1] = [events[1]]
     objects_for_days['2008-12-26'][1] = events
     assert_equal objects_for_days, calendar.objects_for_days(events, :date)
-
 	end
 
   def test_objects_for_days

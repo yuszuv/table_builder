@@ -116,11 +116,8 @@ module CalendarHelper
     end
 
     def first_day
-      first = @first - 6
-      while(first.wday % 7 != (@first_weekday) % 7)
-        first = first.next
-      end
-      first
+			offset = @first.wday - @first_weekday
+      @first - offset
     end
 
     def objects_for_days(objects, day_method)
